@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Details - ShopZone</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* Navbar */
+
+        nav {
+            background: #111827;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        /* Main */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+        }
+
+        /* Order Header */
+
+        .order-header {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .order-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .order-id {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .status {
+            background: #dcfce7;
+            color: #166534;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Cards */
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 21px;
+        }
+
+        /* Customer */
+
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .info-box {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .address-box {
+            grid-column: 1 / -1;
+        }
+
+        /* Products */
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+
+        .product-info h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .product-info p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .product-price {
+            text-align: right;
+            min-width: 150px;
+        }
+
+        .unit-price {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .subtotal {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        /* Total */
+
+        .total-section {
+            border-top: 1px solid #e5e7eb;
+            margin-top: 20px;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .total-price {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        /* Payment */
+
+        .payment-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9fafb;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .payment-method {
+            font-weight: bold;
+        }
+
+        .payment-status {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 9px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .shop-btn {
+            background: #111827;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 16px 5%;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 25px auto;
+            }
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+
+            .order-header-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .customer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .address-box {
+                grid-column: auto;
+            }
+
+            .product-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .product-price {
+                text-align: left;
+            }
+
+            .total-section {
+                gap: 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav>
+
+        <div class="logo">
+            ShopZone
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/orders">
+                📦 My Orders
+            </a>
+
+            <a href="/cart">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <!-- Page Title -->
+
+        <div class="page-title">
+
+            <h1>
+                Order Details
+            </h1>
+
+            <p>
+                View your complete order information
+            </p>
+
+        </div>
+
+
+        <!-- Order Header -->
+
+        <div class="order-header">
+
+            <div class="order-header-top">
+
+                <div>
+
+                    <div class="order-id">
+
+                        Order #
+                        <span th:text="${order.id}">
+                            1
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="status">
+                    Order Placed
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Customer Details -->
+
+        <div class="card">
+
+            <h2>
+                Customer Details
+            </h2>
+
+            <div class="customer-grid">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Full Name
+                    </div>
+
+                    <div class="info-value"
+                         th:text="${order.name}">
+                        Customer Name
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Email
+                    </div>
+
+                    <div class="info-value"
+                         th:text="${order.email}">
+                        email@example.com
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Phone
+                    </div>
+
+                    <div class="info-value"
+                         th:text="${order.phone}">
+                        9876543210
+                    </div>
+
+                </div>
+
+
+                <div class="info-box address-box">
+
+                    <div class="info-label">
+                        Delivery Address
+                    </div>
+
+                    <div class="info-value"
+                         th:text="${order.address}">
+                        Address
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Ordered Products -->
+
+        <div class="card">
+
+            <h2>
+                Ordered Products
+            </h2>
+
+            <div class="product-list">
+
+                <div class="product-item"
+                     th:each="item : ${orderItems}">
+
+                    <div class="product-info">
+
+                        <h3 th:text="${item.product.name}">
+                            Product Name
+                        </h3>
+
+                        <p>
+
+                            Quantity:
+                            <strong th:text="${item.quantity}">
+                                1
+                            </strong>
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="product-price">
+
+                        <div class="unit-price">
+
+                            ₹
+                            <span th:text="${item.price}">
+                                0
+                            </span>
+                            ×
+                            <span th:text="${item.quantity}">
+                                1
+                            </span>
+
+                        </div>
+
+                        <div class="subtotal">
+
+                            ₹
+                            <span
+                                th:text="${item.price * item.quantity}">
+                                0
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Total -->
+
+            <div class="total-section">
+
+                <div class="total-label">
+                    Grand Total
+                </div>
+
+                <div class="total-price">
+
+                    ₹
+                    <span th:text="${order.total}">
+                        0
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Payment -->
+
+        <div class="card">
+
+            <h2>
+                Payment Information
+            </h2>
+
+            <div class="payment-box">
+
+                <div>
+
+                    <div class="info-label">
+                        Payment Method
+                    </div>
+
+                    <div class="payment-method">
+                        Cash on Delivery
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="info-label">
+                        Payment Status
+                    </div>
+
+                    <div class="payment-status">
+                        Pending
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Buttons -->
+
+        <div class="buttons">
+
+            <a href="/orders"
+               class="btn back-btn">
+                ← Back to Orders
+            </a>
+
+            <a href="/products"
+               class="btn shop-btn">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

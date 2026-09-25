@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopZone | Products</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f6f8;
+            color: #111;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            width: 100%;
+            background: #111;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #aaa;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            text-align: center;
+            padding: 55px 20px 35px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #777;
+            font-size: 17px;
+        }
+
+        /* =========================
+           PRODUCT GRID
+        ========================= */
+
+        .products {
+            width: 86%;
+            max-width: 1200px;
+            margin: 20px auto 60px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 30px;
+        }
+
+        /* =========================
+           PRODUCT CARD
+        ========================= */
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.14);
+        }
+
+        /* =========================
+           PRODUCT IMAGE
+        ========================= */
+
+        .image-box {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s ease;
+        }
+
+        .product-card:hover .image-box img {
+            transform: scale(1.06);
+        }
+
+        /* =========================
+           PRODUCT DETAILS
+        ========================= */
+
+        .product-details {
+            padding: 22px;
+        }
+
+        .product-details h2 {
+            font-size: 21px;
+            margin-bottom: 9px;
+        }
+
+        .description {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 23px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        /* =========================
+           STOCK
+        ========================= */
+
+        .stock {
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .in-stock {
+            color: #159447;
+        }
+
+        .out-of-stock {
+            color: #dc2626;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .view-btn,
+        .edit-btn,
+        .delete-btn {
+            padding: 11px 8px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        /* VIEW */
+
+        .view-btn {
+            background: #111;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* EDIT */
+
+        .edit-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        /* DELETE */
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           CART BUTTON
+        ========================= */
+
+        .cart-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+
+            border-radius: 10px;
+
+            background: #111;
+            color: white;
+
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* DISABLED CART */
+
+        .disabled-cart {
+            background: #d1d5db;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .disabled-cart:hover {
+            background: #d1d5db;
+            transform: none;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+
+            padding: 25px;
+            margin-top: 50px;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .products {
+                width: 90%;
+
+                grid-template-columns:
+                    repeat(auto-fit, minmax(220px, 1fr));
+
+                gap: 20px;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 520px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 40px 15px 25px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .products {
+                width: 92%;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .image-box {
+                height: 220px;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+
+            .view-btn,
+            .edit-btn,
+            .delete-btn {
+                padding: 10px 5px;
+                font-size: 13px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            ShopZone
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/add-product">
+                Add Product
+            </a>
+
+            <a href="/orders">
+                📦 My Orders
+            </a>
+
+            <a href="/cart">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+        <h1>
+            Explore Our Products
+        </h1>
+
+        <p>
+            Discover quality products at amazing prices.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
+
+    <div class="products">
+
+        <!-- PRODUCT CARD -->
+
+        <div class="product-card"
+             th:each="product : ${products}">
+
+            <!-- IMAGE -->
+
+            <div class="image-box">
+
+                <img
+                    th:src="${product.imageUrl}"
+                    alt="Product Image"
+                    onerror="this.src='https://picsum.photos/400/250';">
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="product-details">
+
+                <h2 th:text="${product.name}">
+                    Product Name
+                </h2>
+
+
+                <p
+                    class="description"
+                    th:text="${product.description}">
+
+                    Product Description
+
+                </p>
+
+
+                <!-- PRICE -->
+
+                <p class="price">
+
+                    ₹<span th:text="${product.price}">
+                        0
+                    </span>
+
+                </p>
+
+
+                <!-- STOCK -->
+
+                <p class="stock">
+
+                    <span
+                        th:if="${product.quantity > 0}"
+                        class="in-stock">
+
+                        ✓ In Stock:
+                        <span th:text="${product.quantity}">
+                            0
+                        </span>
+
+                    </span>
+
+
+                    <span
+                        th:if="${product.quantity == 0}"
+                        class="out-of-stock">
+
+                        ✕ Out of Stock
+
+                    </span>
+
+                </p>
+
+
+                <!-- ACTION BUTTONS -->
+
+                <div class="buttons">
+
+                    <!-- VIEW -->
+
+                    <a
+                        th:href="@{/product/{id}(id=${product.id})}"
+                        class="view-btn">
+
+                        View
+
+                    </a>
+
+
+                    <!-- EDIT -->
+
+                    <a
+                        th:href="@{/edit-product/{id}(id=${product.id})}"
+                        class="edit-btn">
+
+                        Edit
+
+                    </a>
+
+
+                    <!-- DELETE -->
+
+                    <a
+                        th:href="@{/delete-product/{id}(id=${product.id})}"
+                        class="delete-btn"
+                        onclick="return confirm('Are you sure you want to delete this product?');">
+
+                        Delete
+
+                    </a>
+
+                </div>
+
+
+                <!-- ADD TO CART -->
+
+                <a
+                    th:if="${product.quantity > 0}"
+                    th:href="@{/add-to-cart/{id}(id=${product.id})}"
+                    class="cart-btn">
+
+                    🛒 Add to Cart
+
+                </a>
+
+
+                <!-- OUT OF STOCK BUTTON -->
+
+                <span
+                    th:if="${product.quantity == 0}"
+                    class="cart-btn disabled-cart">
+
+                    ✕ Out of Stock
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        © 2026 ShopZone. All Rights Reserved.
+
+    </footer>
+
+</body>
+
+</html>
