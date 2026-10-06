@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Order - ShopZone</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(99, 102, 241, 0.10),
+                    transparent 35%
+                ),
+                #f4f6f8;
+            color: #111827;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: #0b0f19;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #6366f1;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #818cf8;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 86%;
+            max-width: 900px;
+            margin: 55px auto 70px;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+        }
+
+        /* =========================
+           ORDER CARD
+        ========================= */
+
+        .order-card {
+            background: white;
+            padding: 30px;
+            border-radius: 22px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-id {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .status {
+            background: #dcfce7;
+            color: #166534;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           TRACKING
+        ========================= */
+
+        .tracking {
+            margin-top: 35px;
+        }
+
+        .tracking-title {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            position: relative;
+            padding-bottom: 35px;
+        }
+
+        .track-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .track-item::before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 30px;
+            width: 2px;
+            height: calc(100% - 5px);
+            background: #d1d5db;
+        }
+
+        .track-item:last-child::before {
+            display: none;
+        }
+
+        .track-dot {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            background: #d1d5db;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .track-item.active .track-dot {
+            background: #6366f1;
+            color: white;
+            box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.12);
+        }
+
+        .track-item.active::before {
+            background: #6366f1;
+        }
+
+        .track-content h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .track-content p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s ease;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .shop-btn {
+            background: #111827;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 92%;
+                margin: 40px auto;
+            }
+
+            .page-title h1 {
+                font-size: 30px;
+            }
+
+            .order-card {
+                padding: 22px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Shop<span>Zone</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/orders">
+                📦 My Orders
+            </a>
+
+            <a href="/cart">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Track Your Order
+            </h1>
+
+            <p>
+                Follow the delivery progress of your order
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ORDER CARD
+        ========================= -->
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div class="order-id">
+
+                    Order #
+
+                    <span th:text="${order.id}">
+                        1
+                    </span>
+
+                </div>
+
+                <div class="status"
+                     th:text="${order.status}">
+
+                    Order Placed
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 TRACKING
+            ========================= -->
+
+            <div class="tracking">
+
+                <div class="tracking-title">
+                    Delivery Status
+                </div>
+
+
+                <!-- ORDER PLACED -->
+
+                <div class="track-item"
+                     th:classappend="${order.status == 'Order Placed' or order.status == 'Order Confirmed' or order.status == 'Shipped' or order.status == 'Out for Delivery' or order.status == 'Delivered'} ? ' active'">
+
+                    <div class="track-dot">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+
+                        <h3>
+                            Order Placed
+                        </h3>
+
+                        <p>
+                            Your order has been successfully placed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORDER CONFIRMED -->
+
+                <div class="track-item"
+                     th:classappend="${order.status == 'Order Confirmed' or order.status == 'Shipped' or order.status == 'Out for Delivery' or order.status == 'Delivered'} ? ' active'">
+
+                    <div class="track-dot">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+
+                        <h3>
+                            Order Confirmed
+                        </h3>
+
+                        <p>
+                            Your order has been confirmed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SHIPPED -->
+
+                <div class="track-item"
+                     th:classappend="${order.status == 'Shipped' or order.status == 'Out for Delivery' or order.status == 'Delivered'} ? ' active'">
+
+                    <div class="track-dot">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+
+                        <h3>
+                            Shipped
+                        </h3>
+
+                        <p>
+                            Your order has been shipped.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OUT FOR DELIVERY -->
+
+                <div class="track-item"
+                     th:classappend="${order.status == 'Out for Delivery' or order.status == 'Delivered'} ? ' active'">
+
+                    <div class="track-dot">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+
+                        <h3>
+                            Out for Delivery
+                        </h3>
+
+                        <p>
+                            Your order is on the way to you.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DELIVERED -->
+
+                <div class="track-item"
+                     th:classappend="${order.status == 'Delivered'} ? ' active'">
+
+                    <div class="track-dot">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+
+                        <h3>
+                            Delivered
+                        </h3>
+
+                        <p>
+                            Your order has been delivered successfully.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 BUTTONS
+            ========================= -->
+
+            <div class="buttons">
+
+                <a href="/orders"
+                   class="btn back-btn">
+
+                    ← Back to Orders
+
+                </a>
+
+                <a href="/products"
+                   class="btn shop-btn">
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

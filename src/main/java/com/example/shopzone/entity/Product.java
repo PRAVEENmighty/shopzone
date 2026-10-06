@@ -17,6 +17,8 @@ public class Product {
 
     private String description;
 
+    private String category;
+
     private double price;
 
     @Column(length = 1000)
@@ -51,6 +53,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -74,5 +84,4 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
 }

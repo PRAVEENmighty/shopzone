@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.shopzone.entity.CartItem;
 import com.example.shopzone.entity.Product;
@@ -33,6 +34,33 @@ public class ProductController {
 
         List<Product> products =
                 productService.getAllProducts();
+
+        model.addAttribute("products", products);
+
+        return "products";
+    }
+
+    // Search Products
+    @GetMapping("/search")
+    public String searchProducts(
+            @RequestParam String name,
+            Model model) {
+
+        List<Product> products =
+                productService.searchProducts(name);
+
+        model.addAttribute("products", products);
+
+        return "products";
+    }
+ // Filter Products By Category
+    @GetMapping("/category")
+    public String filterByCategory(
+            @RequestParam String category,
+            Model model) {
+
+        List<Product> products =
+                productService.filterByCategory(category);
 
         model.addAttribute("products", products);
 

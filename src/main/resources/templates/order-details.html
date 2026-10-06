@@ -392,8 +392,7 @@
                 </div>
 
                 <div class="status">
-                    Order Placed
-                </div>
+<span th:text="${order.status}">Order Placed</span>                </div>
 
             </div>
 
@@ -597,19 +596,24 @@
 
         <!-- Buttons -->
 
-        <div class="buttons">
+       <div class="buttons">
 
-            <a href="/orders"
-               class="btn back-btn">
-                ← Back to Orders
-            </a>
+    <a href="/orders"
+       class="btn back-btn">
+        ← Back to Orders
+    </a>
 
-            <a href="/products"
-               class="btn shop-btn">
-                Continue Shopping
-            </a>
+    <a th:href="@{/track-order/{id}(id=${order.id})}"
+       class="btn track-btn">
+        🚚 Track Order
+    </a>
 
-        </div>
+    <a href="/products"
+       class="btn shop-btn">
+        Continue Shopping
+    </a>
+
+</div>
 
     </div>
 

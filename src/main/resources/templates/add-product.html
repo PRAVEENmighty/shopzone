@@ -2,12 +2,16 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Add Product - ShopZone</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -17,98 +21,429 @@
 
         body {
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f4f4f4;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(99, 102, 241, 0.15),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(168, 85, 247, 0.12),
+                    transparent 35%
+                ),
+                #f4f6f8;
+
+            color: #111827;
         }
 
-        .container {
-            width: 450px;
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            width: 100%;
+
+            background: #0b0f19;
+
+            color: white;
+
+            padding: 18px 7%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            z-index: 1000;
+
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.15);
         }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #6366f1;
+        }
+
+        .nav-links {
+            display: flex;
+
+            gap: 28px;
+
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #818cf8;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 480px;
+
+            max-width: 92%;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            padding: 38px;
+
+            margin: 130px auto 50px;
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.10);
+
+            border: 1px solid #e5e7eb;
+        }
+
+        /* =========================
+           HEADING
+        ========================= */
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+
+            color: #111827;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-btn {
+            display: block;
+
+            width: fit-content;
+
+            margin: 0 auto 25px;
+
+            padding: 10px 18px;
+
+            background: #e5e7eb;
+
+            color: #111827;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #d1d5db;
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        label {
+            display: block;
+
+            font-weight: 700;
+
+            font-size: 14px;
+
+            margin-bottom: 7px;
+
+            color: #374151;
         }
 
         input,
         textarea {
             width: 100%;
-            padding: 13px;
-            margin-top: 8px;
-            margin-bottom: 18px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+
+            padding: 14px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 12px;
+
             outline: none;
+
+            background: #f9fafb;
+
+            color: #111827;
+
+            font-size: 14px;
+
+            transition: 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #6366f1;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px rgba(99, 102, 241, 0.12);
         }
 
         textarea {
-            height: 100px;
-            resize: none;
+            height: 110px;
+
+            resize: vertical;
         }
+
+        /* =========================
+           BUTTON
+        ========================= */
 
         button {
             width: 100%;
+
             padding: 14px;
+
             border: none;
-            border-radius: 10px;
-            background: #111;
+
+            border-radius: 12px;
+
+            background: #111827;
+
             color: white;
+
             font-size: 16px;
+
+            font-weight: 700;
+
             cursor: pointer;
+
+            transition: 0.3s ease;
         }
 
         button:hover {
-            background: #333;
+            background: #4f46e5;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(79, 70, 229, 0.25);
         }
 
-        label {
-            font-weight: bold;
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 16px 5%;
+
+                flex-direction: column;
+
+                gap: 14px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .nav-links {
+                gap: 15px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            .container {
+                margin-top: 150px;
+
+                padding: 28px 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
         }
+
     </style>
+
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Shop<span>Zone</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/cart">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ADD PRODUCT -->
+
     <div class="container">
 
-        <h1>Add Product</h1>
+        <h1>
+            Add Product
+        </h1>
+
+        <p class="subtitle">
+            Add a new product to your ShopZone store
+        </p>
+
+
+        <!-- BACK -->
+
+        <a href="/products" class="back-btn">
+            ← Back
+        </a>
+
+
+        <!-- FORM -->
 
         <form action="/add-product" method="post">
 
-            <label>Product Name</label>
-            <input type="text"
-                   name="name"
-                   placeholder="Enter product name"
-                   required>
+            <!-- PRODUCT NAME -->
 
-            <label>Description</label>
-            <textarea name="description"
-                      placeholder="Enter product description"
-                      required></textarea>
+            <label>
+                Product Name
+            </label>
 
-            <label>Price</label>
-            <input type="number"
-                   name="price"
-                   step="0.01"
-                   placeholder="Enter price"
-                   required>
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter product name"
+                required>
 
-            <label>Image URL</label>
-            <input type="text"
-                   name="imageUrl"
-                   placeholder="Enter image URL">
 
-            <label>Quantity</label>
-            <input type="number"
-                   name="quantity"
-                   placeholder="Enter stock quantity"
-                   required>
+            <!-- DESCRIPTION -->
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                placeholder="Enter product description"
+                required></textarea>
+
+
+            <!-- CATEGORY -->
+
+            <label>
+                Category
+            </label>
+
+            <input
+                type="text"
+                name="category"
+                placeholder="Enter product category"
+                required>
+
+
+            <!-- PRICE -->
+
+            <label>
+                Price
+            </label>
+
+            <input
+                type="number"
+                name="price"
+                step="0.01"
+                placeholder="Enter price"
+                required>
+
+
+            <!-- IMAGE URL -->
+
+            <label>
+                Image URL
+            </label>
+
+            <input
+                type="text"
+                name="imageUrl"
+                placeholder="Enter image URL">
+
+
+            <!-- QUANTITY -->
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                type="number"
+                name="quantity"
+                placeholder="Enter stock quantity"
+                required>
+
+
+            <!-- BUTTON -->
 
             <button type="submit">
                 Add Product

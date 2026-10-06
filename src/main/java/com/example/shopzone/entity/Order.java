@@ -25,6 +25,8 @@ public class Order {
     private String address;
     private double total;
 
+    private String status = "Order Placed";
+
     @OneToMany(
         mappedBy = "order",
         cascade = CascadeType.ALL,
@@ -81,6 +83,14 @@ public class Order {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public List<OrderItem> getOrderItems() {

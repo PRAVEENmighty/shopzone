@@ -12,6 +12,8 @@ import com.example.shopzone.entity.OrderItem;
 import com.example.shopzone.repository.OrderItemRepository;
 import com.example.shopzone.repository.OrderRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class OrderController {
 
@@ -35,6 +37,26 @@ public class OrderController {
         model.addAttribute("orders", orders);
 
         return "orders";
+    }
+
+    // Admin Orders
+    @GetMapping("/admin-orders")
+    public String adminOrdersPage(
+            Model model,
+            HttpSession session) {
+
+        Boolean adminLoggedIn =
+                (Boolean) session.getAttribute("adminLoggedIn");
+
+        if (adminLoggedIn == null || !adminLoggedIn) {
+            return "redirect:/admin-login";
+        }
+
+        List<Order> orders = orderRepository.findAll();
+
+        model.addAttribute("orders", orders);
+
+        return "admin-orders";
     }
 
     // Show Order Details
@@ -64,5 +86,42 @@ public class OrderController {
         model.addAttribute("orderItems", orderItems);
 
         return "order-details";
+    }
+
+    // Track Order
+    @GetMapping("/track-order/{id}")
+    public String trackOrder(
+            @PathVariable Long id,
+            Model model) {
+
+        Order order = orderRepository
+                .findById(id)
+                .orElse(null);
+
+        if (order == null) {
+            return "redirect:/orders";
+        }
+
+        model.addAttribute("order", order);
+
+        return "track-order";
+    }
+
+    // Update Order Status
+    @GetMapping("/update-order-status/{id}/{status}")
+    public String updateOrderStatus(
+            @PathVariable Long id,
+            @PathVariable String status) {
+
+        Order order = orderRepository
+                .findById(id)
+                .orElse(null);
+
+        if (order != null) {
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
+
+        return "redirect:/orders";
     }
 }

@@ -1,0 +1,577 @@
+\<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Orders - ShopZone</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(99, 102, 241, 0.10),
+                    transparent 35%
+                ),
+                #f4f6f8;
+
+            color: #111827;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #0b0f19;
+            color: white;
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #6366f1;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #818cf8;
+        }
+
+        /* LOGOUT BUTTON */
+
+        .logout-btn {
+            display: inline-block;
+            padding: 9px 18px;
+
+            background: #ef4444;
+            color: white !important;
+
+            border-radius: 8px;
+
+            font-weight: bold !important;
+
+            transition: 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+            color: white !important;
+
+            transform: translateY(-1px);
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 86%;
+            max-width: 1200px;
+
+            margin: 55px auto 70px;
+        }
+
+        /* PAGE TITLE */
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        /* ORDER CARD */
+
+        .order-card {
+            background: white;
+
+            padding: 25px;
+            margin-bottom: 20px;
+
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-id {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .status {
+            padding: 8px 15px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+            color: #166534;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* CUSTOMER DETAILS */
+
+        .customer-details {
+            padding: 20px 0;
+            line-height: 1.9;
+        }
+
+        .customer-details p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .customer-details strong {
+            color: #111827;
+        }
+
+        /* FOOTER */
+
+        .order-footer {
+            border-top: 1px solid #e5e7eb;
+
+            padding-top: 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .total {
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            color: white;
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: 0.3s ease;
+        }
+
+        .view-btn {
+            background: #111827;
+        }
+
+        .view-btn:hover {
+            background: #4f46e5;
+        }
+
+        .confirm-btn {
+            background: #2563eb;
+        }
+
+        .confirm-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .ship-btn {
+            background: #7c3aed;
+        }
+
+        .ship-btn:hover {
+            background: #6d28d9;
+        }
+
+        .delivery-btn {
+            background: #ea580c;
+        }
+
+        .delivery-btn:hover {
+            background: #c2410c;
+        }
+
+        .delivered-btn {
+            background: #16a34a;
+        }
+
+        .delivered-btn:hover {
+            background: #15803d;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        /* EMPTY ORDERS */
+
+        .empty-orders {
+            background: white;
+
+            padding: 70px 30px;
+
+            border-radius: 22px;
+
+            text-align: center;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .empty-orders h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-orders p {
+            color: #6b7280;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .page-title h1 {
+                font-size: 32px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .order-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Shop<span>Zone</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/orders">
+                📦 My Orders
+            </a>
+
+            <a href="/admin-logout"
+               class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Admin Orders
+            </h1>
+
+            <p>
+                Manage customer orders and update delivery status.
+            </p>
+
+        </div>
+
+
+        <!-- ORDERS -->
+
+        <div th:if="${!#lists.isEmpty(orders)}">
+
+            <div class="order-card"
+                 th:each="order : ${orders}">
+
+                <div class="order-header">
+
+                    <div class="order-id">
+
+                        Order #
+
+                        <span th:text="${order.id}">
+                            1
+                        </span>
+
+                    </div>
+
+                    <div class="status"
+                         th:text="${order.status}">
+
+                        Order Placed
+
+                    </div>
+
+                </div>
+
+
+                <!-- CUSTOMER DETAILS -->
+
+                <div class="customer-details">
+
+                    <p>
+
+                        <strong>
+                            Name:
+                        </strong>
+
+                        <span th:text="${order.name}">
+                            Customer
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Email:
+                        </strong>
+
+                        <span th:text="${order.email}">
+                            customer@email.com
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Phone:
+                        </strong>
+
+                        <span th:text="${order.phone}">
+                            9876543210
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Address:
+                        </strong>
+
+                        <span th:text="${order.address}">
+                            Delivery Address
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- ORDER FOOTER -->
+
+                <div class="order-footer">
+
+                    <div class="total">
+
+                        ₹<span th:text="${order.total}">
+                            0.00
+                        </span>
+
+                    </div>
+
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="actions">
+
+                        <a th:href="@{/order/{id}(id=${order.id})}"
+                           class="btn view-btn">
+
+                            View Details
+
+                        </a>
+
+
+                        <a th:href="@{/update-order-status/{id}/Order%20Confirmed(id=${order.id})}"
+                           class="btn confirm-btn">
+
+                            Confirm
+
+                        </a>
+
+
+                        <a th:href="@{/update-order-status/{id}/Shipped(id=${order.id})}"
+                           class="btn ship-btn">
+
+                            Shipped
+
+                        </a>
+
+
+                        <a th:href="@{/update-order-status/{id}/Out%20for%20Delivery(id=${order.id})}"
+                           class="btn delivery-btn">
+
+                            Out for Delivery
+
+                        </a>
+
+
+                        <a th:href="@{/update-order-status/{id}/Delivered(id=${order.id})}"
+                           class="btn delivered-btn">
+
+                            Delivered
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NO ORDERS -->
+
+        <div class="empty-orders"
+             th:if="${#lists.isEmpty(orders)}">
+
+            <div class="empty-icon">
+                📦
+            </div>
+
+            <h2>
+                No Orders Yet
+            </h2>
+
+            <p>
+                There are no customer orders available.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

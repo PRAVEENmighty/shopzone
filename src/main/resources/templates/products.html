@@ -4,7 +4,9 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>ShopZone | Products</title>
 
@@ -18,8 +20,8 @@
         }
 
         body {
-            background: #f5f6f8;
-            color: #111;
+            background: #f4f6f8;
+            color: #111827;
         }
 
         /* =========================
@@ -28,18 +30,26 @@
 
         .navbar {
             width: 100%;
-            background: #111;
+            background: #0b0f19;
             color: white;
-            padding: 20px 7%;
+            padding: 18px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
 
         .logo {
             font-size: 28px;
-            font-weight: bold;
+            font-weight: 800;
             letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #6366f1;
         }
 
         .nav-links {
@@ -49,14 +59,15 @@
         }
 
         .nav-links a {
-            color: white;
+            color: #ffffff;
             text-decoration: none;
             font-size: 15px;
-            transition: 0.3s;
+            font-weight: 500;
+            transition: 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #aaa;
+            color: #818cf8;
         }
 
         /* =========================
@@ -65,17 +76,101 @@
 
         .hero {
             text-align: center;
-            padding: 55px 20px 35px;
+            padding: 70px 20px 35px;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(99,102,241,0.12),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at top right,
+                    rgba(168,85,247,0.10),
+                    transparent 35%
+                );
         }
 
         .hero h1 {
-            font-size: 42px;
-            margin-bottom: 12px;
+            font-size: 46px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
         }
 
         .hero p {
-            color: #777;
+            color: #6b7280;
             font-size: 17px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-container {
+            width: 86%;
+            max-width: 850px;
+            margin: 10px auto 35px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+            background: white;
+            padding: 10px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 14px 16px;
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            background: #f9fafb;
+            color: #111827;
+            font-size: 15px;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 2px #6366f1;
+        }
+
+        .search-btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .clear-btn {
+            padding: 14px 20px;
+            border-radius: 10px;
+            background: #e5e7eb;
+            color: #111827;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            transition: 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: #d1d5db;
+            transform: translateY(-2px);
         }
 
         /* =========================
@@ -84,13 +179,12 @@
 
         .products {
             width: 86%;
-            max-width: 1200px;
-            margin: 20px auto 60px;
+            max-width: 1250px;
+            margin: 25px auto 70px;
 
             display: grid;
-
             grid-template-columns:
-                repeat(auto-fit, minmax(250px, 1fr));
+                repeat(auto-fit, minmax(270px, 1fr));
 
             gap: 30px;
         }
@@ -100,21 +194,17 @@
         ========================= */
 
         .product-card {
-            background: white;
-            border-radius: 20px;
+            background: #ffffff;
+            border-radius: 22px;
             overflow: hidden;
-
-            box-shadow:
-                0 8px 25px rgba(0, 0, 0, 0.08);
-
-            transition: 0.3s ease;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: 0.35s ease;
         }
 
         .product-card:hover {
-            transform: translateY(-7px);
-
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.14);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.12);
         }
 
         /* =========================
@@ -123,20 +213,20 @@
 
         .image-box {
             width: 100%;
-            height: 240px;
+            height: 250px;
             overflow: hidden;
-            background: #eee;
+            background: #f1f3f5;
         }
 
         .image-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: 0.4s ease;
+            transition: 0.5s ease;
         }
 
         .product-card:hover .image-box img {
-            transform: scale(1.06);
+            transform: scale(1.07);
         }
 
         /* =========================
@@ -144,24 +234,28 @@
         ========================= */
 
         .product-details {
-            padding: 22px;
+            padding: 24px;
         }
 
         .product-details h2 {
             font-size: 21px;
+            font-weight: 700;
             margin-bottom: 9px;
+            color: #111827;
         }
 
         .description {
-            color: #777;
+            color: #6b7280;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
+            min-height: 45px;
             margin-bottom: 15px;
         }
 
         .price {
-            font-size: 23px;
-            font-weight: bold;
+            font-size: 24px;
+            font-weight: 800;
+            color: #111827;
             margin-bottom: 8px;
         }
 
@@ -176,7 +270,7 @@
         }
 
         .in-stock {
-            color: #159447;
+            color: #16a34a;
         }
 
         .out-of-stock {
@@ -190,7 +284,7 @@
         .buttons {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            gap: 9px;
             width: 100%;
         }
 
@@ -201,44 +295,44 @@
             border-radius: 10px;
             text-align: center;
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             transition: 0.3s ease;
         }
 
         /* VIEW */
 
         .view-btn {
-            background: #111;
+            background: #111827;
             color: white;
         }
 
         .view-btn:hover {
-            background: #333;
+            background: #374151;
             transform: translateY(-2px);
         }
 
         /* EDIT */
 
         .edit-btn {
-            background: #2563eb;
+            background: #4f46e5;
             color: white;
         }
 
         .edit-btn:hover {
-            background: #1d4ed8;
+            background: #4338ca;
             transform: translateY(-2px);
         }
 
         /* DELETE */
 
         .delete-btn {
-            background: #dc2626;
+            background: #ef4444;
             color: white;
         }
 
         .delete-btn:hover {
-            background: #b91c1c;
+            background: #dc2626;
             transform: translateY(-2px);
         }
 
@@ -249,23 +343,19 @@
         .cart-btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            margin-top: 12px;
-
-            border-radius: 10px;
-
-            background: #111;
+            padding: 13px;
+            margin-top: 13px;
+            border-radius: 11px;
+            background: #111827;
             color: white;
-
             text-align: center;
             text-decoration: none;
-            font-weight: 600;
-
-            transition: 0.3s;
+            font-weight: 700;
+            transition: 0.3s ease;
         }
 
         .cart-btn:hover {
-            background: #333;
+            background: #4f46e5;
             transform: translateY(-2px);
         }
 
@@ -283,18 +373,60 @@
         }
 
         /* =========================
+           NO PRODUCTS
+        ========================= */
+
+        .no-products {
+            width: 86%;
+            max-width: 700px;
+            margin: 40px auto 70px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .no-products h2 {
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .no-products p {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .all-products-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .all-products-btn:hover {
+            background: #4f46e5;
+        }
+
+        /* =========================
            FOOTER
         ========================= */
 
         footer {
-            background: #111;
-            color: white;
+            background: #0b0f19;
+            color: #d1d5db;
             text-align: center;
-
-            padding: 25px;
+            padding: 28px 20px;
             margin-top: 50px;
-
             font-size: 14px;
+        }
+
+        footer span {
+            color: #818cf8;
+            font-weight: 700;
         }
 
         /* =========================
@@ -316,17 +448,20 @@
             }
 
             .hero h1 {
-                font-size: 34px;
+                font-size: 36px;
             }
 
             .products {
                 width: 90%;
-
                 grid-template-columns:
-                    repeat(auto-fit, minmax(220px, 1fr));
-
-                gap: 20px;
+                    repeat(auto-fit, minmax(230px, 1fr));
+                gap: 22px;
             }
+
+            .search-container {
+                width: 90%;
+            }
+
         }
 
         /* =========================
@@ -341,13 +476,13 @@
             }
 
             .nav-links {
-                gap: 15px;
+                gap: 14px;
                 flex-wrap: wrap;
                 justify-content: center;
             }
 
             .hero {
-                padding: 40px 15px 25px;
+                padding: 45px 15px 30px;
             }
 
             .hero h1 {
@@ -358,14 +493,33 @@
                 font-size: 15px;
             }
 
+            .search-container {
+                width: 92%;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .search-btn,
+            .clear-btn {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
             .products {
                 width: 92%;
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 22px;
             }
 
             .image-box {
-                height: 220px;
+                height: 230px;
             }
 
             .buttons {
@@ -377,8 +531,9 @@
             .edit-btn,
             .delete-btn {
                 padding: 10px 5px;
-                font-size: 13px;
+                font-size: 12px;
             }
+
         }
 
     </style>
@@ -394,10 +549,14 @@
     <nav class="navbar">
 
         <div class="logo">
-            ShopZone
+            Shop<span>Zone</span>
         </div>
 
         <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
 
             <a href="/products">
                 Products
@@ -438,15 +597,68 @@
 
 
     <!-- =========================
+         SEARCH
+    ========================= -->
+
+    <div class="search-container">
+
+        <form action="/search" method="get" class="search-form">
+
+    <input
+        type="text"
+        name="name"
+        class="search-input"
+        placeholder="🔍 Search products..."
+        required>
+
+    <button
+        type="submit"
+        class="search-btn">
+        Search
+    </button>
+
+    <a href="/products" class="clear-btn">
+        Clear
+    </a>
+
+</form>
+
+<form action="/category" method="get" class="search-form">
+
+    <input
+        type="text"
+        name="category"
+        class="search-input"
+        placeholder="📂 Filter by category..."
+        required>
+
+    <button
+        type="submit"
+        class="search-btn">
+        Filter
+    </button>
+
+    <a href="/products" class="clear-btn">
+        Clear
+    </a>
+
+</form>
+    </div>
+
+
+    <!-- =========================
          PRODUCTS
     ========================= -->
 
-    <div class="products">
+    <div
+        class="products"
+        th:if="${!#lists.isEmpty(products)}">
 
         <!-- PRODUCT CARD -->
 
-        <div class="product-card"
-             th:each="product : ${products}">
+        <div
+            class="product-card"
+            th:each="product : ${products}">
 
             <!-- IMAGE -->
 
@@ -454,8 +666,7 @@
 
                 <img
                     th:src="${product.imageUrl}"
-                    alt="Product Image"
-                    onerror="this.src='https://picsum.photos/400/250';">
+                    alt="Product Image">
 
             </div>
 
@@ -464,9 +675,16 @@
 
             <div class="product-details">
 
-                <h2 th:text="${product.name}">
+                <h2
+                    th:text="${product.name}">
+
                     Product Name
+
                 </h2>
+                <p class="category"
+   th:text="${product.category}">
+    Category
+</p>
 
 
                 <p
@@ -482,8 +700,11 @@
 
                 <p class="price">
 
-                    ₹<span th:text="${product.price}">
+                    ₹<span
+                        th:text="${product.price}">
+
                         0
+
                     </span>
 
                 </p>
@@ -498,8 +719,12 @@
                         class="in-stock">
 
                         ✓ In Stock:
-                        <span th:text="${product.quantity}">
+
+                        <span
+                            th:text="${product.quantity}">
+
                             0
+
                         </span>
 
                     </span>
@@ -586,14 +811,46 @@
 
 
     <!-- =========================
+         NO PRODUCTS
+    ========================= -->
+
+    <div
+        class="no-products"
+        th:if="${#lists.isEmpty(products)}">
+
+        <h2>
+            No Products Found
+        </h2>
+
+        <p>
+            Sorry, we couldn't find any products matching your search.
+        </p>
+
+        <a
+            href="/products"
+            class="all-products-btn">
+
+            View All Products
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
          FOOTER
     ========================= -->
 
     <footer>
 
-        © 2026 ShopZone. All Rights Reserved.
+        © 2026 ShopZone.
+        Created by Praveen |
+        <span>
+            praveen26vlk@gmail.com
+        </span>
 
     </footer>
+
 
 </body>
 
